@@ -1,0 +1,49 @@
+When using Android.mk, it is easy to add MICRO to control the compiling module.
+while the android.bp does not support this.
+
+I write a test code which test on mtk platform.
+
+
+1) if nothing define in projectconfig.mk
+then the compile log will be the following
+
+
+[ 16% 1/6] glob external/androidbp_test/NOTICE
+[ 33% 2/6] compile out/soong/.bootstrap/soong-patrick-test/pkg/android/soong/patrick/test.a
+[ 50% 3/6] compile out/soong/.bootstrap/soong_build/obj/soong_build.a
+[ 66% 4/6] link out/soong/.bootstrap/soong_build/obj/a.out
+[ 83% 5/6] cp out/soong/.bootstrap/bin/soong_build
+[100% 6/6] out/soong/.bootstrap/bin/soong_build out/soong/build.ninja
+first call when compile
+MYTEST1_SUPPORT support: false
+MYTEST1_DEBUG_SUPPORT support: false
+MYTEST2_DEBUG_SUPPORT support: false
+
+the default compile result is mytest2/main.c
+
+strings out/target/product/xxxxxxproject/vendor/bin/androidbp_test |grep mytest
+
+mytest2 struct.a=%d, struct .b=%d
+
+
+
+2) if modify mtk projectconfig.mk
+
++++ b/alps/device/mediatekprojects/xxxxxxproject/ProjectConfig.mk
++MYTEST1_SUPPORT = yes
++MYTEST1_DEBUG_SUPPORT = yes
+
+
+the compile log:
+[ 50% 1/2] glob external/androidbp_test/NOTICE
+[100% 2/2] out/soong/.bootstrap/bin/soong_build out/soong/build.ninja
+first call when compile
+MYTEST1_SUPPORT support: true
+MYTEST1_DEBUG_SUPPORT support: true
+MYTEST2_DEBUG_SUPPORT support: false
+mytest1 support
+
+
+the compile result:(mytest1/main.c)
+strings out/target/product/xxxxxxproject/vendor/bin/androidbp_test |grep mytest
+mytest1 struct.a=%d, struct .b=%d

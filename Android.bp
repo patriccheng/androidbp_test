@@ -1,0 +1,34 @@
+// =============================================================================                                                              
+// Module: androidbp_test
+// Support : multi project with the same name module
+// =============================================================================
+
+
+cc_binary {
+        name: "androidbp_test",
+        proprietary: true,
+        owner: "patrick",
+        defaults: [
+                "androidbp_test1_defaults",
+                //"androidbp_test2_defaults", // add more defualts
+        ],
+}
+
+
+androidbp_test1_defaults {
+        name: "androidbp_test1_defaults",
+}
+
+
+bootstrap_go_package {
+        name: "soong-patrick-test", //Any name you want
+        pkgPath: "android/soong/patrick/test", //this is the better use the name
+        deps: [
+                "soong-android",
+                "soong-cc",
+        ],
+        srcs: [
+                "test.go", //will analysis the test.go file in the current dir
+        ],
+        pluginFor: ["soong_build"],
+}

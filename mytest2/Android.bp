@@ -1,0 +1,14 @@
+filegroup {
+        name: "mytest2_Sources",
+        srcs: [
+                "main.c",
+        ],  
+}
+
+cc_library_headers {
+        name: "mytest2_headers",
+        vendor: true,
+        export_include_dirs: [
+                "inc",
+        ],  
+}
